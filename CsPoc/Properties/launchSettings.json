@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CsPoc (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CsPoc (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
