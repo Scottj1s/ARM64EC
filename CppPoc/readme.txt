@@ -19,5 +19,14 @@ Steps:
 https://learn.microsoft.com/en-us/windows/arm/arm64ec-build#msbuild-projects
 
 3. Build the project for the new ARM64EC platform.
+   Verify ARM64EC build of app and deployment of WinAppSDK self-contained binaries:
+   >cd ARM64EC\Debug\Arm64ECTest
+   >for /f "delims=" %i in ('dir /b/s *.exe *.dll') do @echo %i & dumpbin /headers %i | findstr machine
+   C:\git\ARM64EC\CppPoc\ARM64EC\Debug\Arm64ECTest\Arm64ECTest.exe
+            8664 machine (x64) (ARM64X)   
+   ...
+   C:\git\ARM64EC\CppPoc\ARM64EC\Debug\Arm64ECTest\Microsoft.ui.xaml.dll
+            8664 machine (x64) (ARM64X)
+   ...
 
 4. Run/debug the app on an ARM64 device.
