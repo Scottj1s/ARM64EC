@@ -1,7 +1,6 @@
-# Windows App SDK C# Arm64EC Sample
+# Windows App SDK C# Arm64EC Unpackaged Sample
 
-This project demonstrates how to create an ARM64EC Windows App SDK app.
-Note: Support is currently limited to Self-Contained Unpackaged apps.
+This project demonstrates how to create an Unpackaged ARM64EC Windows App SDK app.
 
 Steps:
 
