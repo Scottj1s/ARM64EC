@@ -3,18 +3,27 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
     <PropertyGroup>
+        <!--Dissable automatic initialization of Windows App Runtime for custom dynamic loader-->
         <WindowsAppSdkUndockedRegFreeWinRTInitialize>false</WindowsAppSdkUndockedRegFreeWinRTInitialize>
         <!-- Activate WindowsAppSDKRedirectDlls logic in SelfContained targets file,
             as a side effect of the .NET PublishSingleFile support. 
             See also setting of MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY env var. -->
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
         <PublishSingleFile>true</PublishSingleFile>
+    </PropertyGroup>
+
+    <!-- Dynamic Windows App Runtime projects use self-contained/unpackaged configuration -->
+    <PropertyGroup Condition="'UseWindowsAppSDKDynamicRuntime)' != 'true'">
+        <WindowsAppSDKDynamicRuntimeDirectory>$(ProjectName)</WindowsAppSDKDynamicRuntimeDirectory>
     </PropertyGroup>
 
     <!--Override SelfContained target to binplace WindowsAppRuntime files into specific directory.
         Resource PRI files are excluded here and handled in a separate target below, just for the app.
         This target is only executed by the WindowsAppRuntime projects, not the app project.-->
     <Target Name="AddMicrosoftWindowsAppSDKPayloadFilesFromMsix"
-        Condition="'$(MSBuildProjectExtension)' != '.wapproj'  and '$(MicrosoftWindowsAppSDKPackageDir)' != '' and '$(WindowsAppSDKDynamicRuntimeDirectory)' != ''"
+        Condition="'$(MSBuildProjectExtension)' != '.wapproj'  and 
+            '$(MicrosoftWindowsAppSDKPackageDir)' != '' and 
+            '$(UseWindowsAppSDKDynamicRuntime)' != 'true'"
         BeforeTargets="AssignTargetPaths;CoreCompile"
         DependsOnTargets="ExtractMicrosoftWindowsAppSDKMsixFiles" >
         <ItemGroup>
@@ -40,7 +49,9 @@
     <!--Factor out handling of PRI files from the SelfContained target, to ensure that they are 
         merged with the app's PRI file. This is only needed for the app project.-->
     <Target Name="AddMicrosoftWindowsAppSDKPriFilesFromMsix"
-        Condition="'$(MSBuildProjectExtension)' != '.wapproj'  and '$(MicrosoftWindowsAppSDKPackageDir)' != '' and '$(WindowsAppSDKDynamicRuntimeDirectory)' == ''"
+        Condition="'$(MSBuildProjectExtension)' != '.wapproj'  and 
+            '$(MicrosoftWindowsAppSDKPackageDir)' != '' and 
+            '$(UseWindowsAppSDKDynamicRuntime)' == 'true'"
         BeforeTargets="AssignTargetPaths;CoreCompile"
         DependsOnTargets="ExtractMicrosoftWindowsAppSDKMsixFiles" >
         <ItemGroup>

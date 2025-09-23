@@ -45,11 +45,8 @@
     <ShortProjectName>WAR.ARM64EC</ShortProjectName>
     <RootNamespace>WindowsAppRuntime.ARM64EC</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <!-- Wasdk_support: Use self-contained / unpackaged -->
-    <WindowsAppSDKDynamicRuntimeDirectory>Microsoft.WindowsAppRuntime.ARM64EC</WindowsAppSDKDynamicRuntimeDirectory>
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <!-- Windows App Runtime projects are unpackaged -->
     <WindowsPackageType>None</WindowsPackageType>
-    <!-- <OutDir>$(SolutionDir)\$(Platform)\$(Configuration)\Microsoft.WindowsAppRuntime.ARM64EC\</OutDir> -->
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

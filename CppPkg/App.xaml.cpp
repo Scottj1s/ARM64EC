@@ -26,12 +26,12 @@ struct DynamicRuntimeLoaderAutoInitialize
         if (nativeMachine == IMAGE_FILE_MACHINE_AMD64) 
         {
             // x64 process running natively on an x64 system, use x64 WAR
-            runtimePath.append(L"Microsoft.WindowsAppRuntime.x64\\");
+            runtimePath.append(L"WindowsAppRuntime.x64\\");
         }
         else if (nativeMachine == IMAGE_FILE_MACHINE_ARM64) 
         {
             // x64 process running emulated on an ARM64 system, use ARM64EC WAR
-            runtimePath.append(L"Microsoft.WindowsAppRuntime.ARM64EC\\");
+            runtimePath.append(L"WindowsAppRuntime.ARM64EC\\");
         }
         else
         {
