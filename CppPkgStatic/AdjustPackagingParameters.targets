@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Target Name="_GetPackageArchitecture">
+        <PropertyGroup Condition="'$(Platform)'=='ARM64EC'">
+            <PackageArchitecture>arm64</PackageArchitecture>
+        </PropertyGroup>
+        <WinAppSdkGetPackageArchitecture Condition="'$(Platform)'!='ARM64EC'" Platform="$(Platform)" ProjectArchitecture="@(ProjectArchitecture)" RecursiveProjectArchitecture="@(_RecursiveProjectArchitecture)" VsTelemetrySession="$(VsTelemetrySession)">
+            <Output TaskParameter="PackageArchitecture" PropertyName="PackageArchitecture" />
+        </WinAppSdkGetPackageArchitecture>
+    </Target>
+
+</Project>

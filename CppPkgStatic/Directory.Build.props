@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <DesktopCompatible>true</DesktopCompatible>
+        <WinUISDKReferences>fasle</WinUISDKReferences>
+        <ValidateArm64EcConfiguration>false</ValidateArm64EcConfiguration>
+    </PropertyGroup>
+
+</Project>
