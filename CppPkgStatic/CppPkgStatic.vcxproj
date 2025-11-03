@@ -172,9 +172,15 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AdjustPackagingParameters.targets" />
     <None Include="Directory.Build.props" />
     <None Include="packages.config" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibNonEC\LibNonEC.vcxproj">
+      <Project>{3b689cd9-ef76-423c-a552-358b43e2aa4c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
@@ -232,5 +238,5 @@
     <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.8.250907003\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.8.250907003\build\native\Microsoft.WindowsAppSDK.props'))" />
     <Error Condition="!Exists('packages\Microsoft.WindowsAppSDK.1.8.250907003\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.WindowsAppSDK.1.8.250907003\build\native\Microsoft.WindowsAppSDK.targets'))" />
   </Target>
-  <Import Project="$(MSBuildThisFileDirectory)AdjustPackagingParameters.targets"/>
+  <Import Project="$(MSBuildThisFileDirectory)AdjustPackagingParameters.targets" />
 </Project>

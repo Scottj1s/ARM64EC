@@ -51,6 +51,7 @@
     <None Include="packages.config" />
     <None Include="Directory.Build.props" />
     <None Include="README.md" />
+    <None Include="AdjustPackagingParameters.targets" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
