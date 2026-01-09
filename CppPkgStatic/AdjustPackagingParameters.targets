@@ -3,7 +3,15 @@
 
     <Target Name="_GetPackageArchitecture">
         <PropertyGroup Condition="'$(Platform)'=='ARM64EC'">
-            <PackageArchitecture>arm64</PackageArchitecture>
+            <!--
+            Remote debugging of ARM64EC (x64) processes on ARM64 devices requires the x64 msvsmon.exe.
+            To enable this, we'll set the PackageArchitecture to 'neutral' to avoid the deployment error:
+                DEP3308: Deployment target '...' does not support projects targetting ARM64 platform. Supported platforms: X86,X64.
+            To ensure that ARM64EC binaries are NOT deployed to x64 or x86 devices, 
+            we'll restrict this neutral packaging technique to building within VS for F5.
+            -->
+            <PackageArchitecture Condition="'$(BuildingInsideVisualStudio)'=='true'">neutral</PackageArchitecture>
+            <PackageArchitecture Condition="'$(BuildingInsideVisualStudio)'!='true'">arm64</PackageArchitecture>
         </PropertyGroup>
         <WinAppSdkGetPackageArchitecture Condition="'$(Platform)'!='ARM64EC'" Platform="$(Platform)" ProjectArchitecture="@(ProjectArchitecture)" RecursiveProjectArchitecture="@(_RecursiveProjectArchitecture)" VsTelemetrySession="$(VsTelemetrySession)">
             <Output TaskParameter="PackageArchitecture" PropertyName="PackageArchitecture" />

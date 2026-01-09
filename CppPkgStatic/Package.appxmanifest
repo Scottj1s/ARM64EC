@@ -10,6 +10,7 @@
   <Identity
     Name="CppPkgStaticArm64EC"
     Publisher="CN=sjones"
+
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="24adb99f-84ae-4d40-a889-40b4525d6ffe" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
