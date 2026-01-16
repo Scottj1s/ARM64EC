@@ -5,6 +5,8 @@
         <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
         <WinUISDKReferences>false</WinUISDKReferences>
         <ValidateArm64EcConfiguration>false</ValidateArm64EcConfiguration>
+        <!--Disable "error MSB3271: There was a mismatch between the processor architecture of the project being built "ARM64" and the processor architecture, "", of the implementation file ..." -->
+        <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     </PropertyGroup>
 
 </Project>

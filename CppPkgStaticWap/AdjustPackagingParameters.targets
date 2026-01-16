@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Target Name="_GetPackageArchitecture">
+        <!--
+            To work past the deployment error,
+                DEP3308: Deployment target 'Local Machine' does not support projects targetting ARM64 platform. Supported platforms: X86,X64.
+
+            For single-project solutions (e.g., the CppPkgStatic sample), it's only necessary to override the PackageArchitecture 
+            to 'neutral' for ARM64EC platform builds, enabling VS to deploy to a target device running the x64 msvsmon.
+
+            For wapproj solutions, it's not possible to create a custom ARM64EC platform for the wapproj.  
+            This is blocked by the IDE and attempts to manually edit the wapproj and map the solution-platform build 
+            configuration also fail.  The IDE reverts the mapping to a wapproj platform it supports - ARM64, x64, or x86.  
+            So an ARM64EC solution must use ARM64 for the wapproj.
+        -->
+        <PropertyGroup Condition="'$(Platform)'=='ARM64' and '$(BuildingInsideVisualStudio)'=='true'">
+            <UseNeutralArchitectureForRemoteDebuggingDeployment>true</UseNeutralArchitectureForRemoteDebuggingDeployment>
+            <PackageArchitecture>neutral</PackageArchitecture>
+        </PropertyGroup>
+
+        <GetPackageArchitecture Condition="'$(UseNeutralArchitectureForRemoteDebuggingDeployment)'!='true'" 
+                Platform="$(Platform)" ProjectArchitecture="@(ProjectArchitecture)" RecursiveProjectArchitecture="@(_RecursiveProjectArchitecture)" VsTelemetrySession="$(VsTelemetrySession)">
+            <Output TaskParameter="PackageArchitecture" PropertyName="PackageArchitecture" />
+        </GetPackageArchitecture>
+    </Target>
+
+</Project>
