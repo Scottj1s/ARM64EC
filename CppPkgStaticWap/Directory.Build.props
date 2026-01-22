@@ -9,4 +9,9 @@
         <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     </PropertyGroup>
 
+    <ItemGroup>
+        <!-- Needed for ucrtbased.dll when running a debug build. -->
+        <SDKReference Include="Microsoft.UniversalCRT.Debug, Version=$(TargetPlatformVersion)" Condition="'$(Configuration)' == 'Debug'" />
+    </ItemGroup>
+
 </Project>
