@@ -3,6 +3,7 @@
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
+#include <winrt/RuntimeComponent1.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -24,6 +25,8 @@ namespace winrt::CppPkgStatic::implementation
 
     void MainWindow::myButton_Click(IInspectable const&, RoutedEventArgs const&)
     {
+        auto a{ RuntimeComponent1::Class() };
+        a;
         myButton().Content(box_value(L"Clicked"));
     }
 }

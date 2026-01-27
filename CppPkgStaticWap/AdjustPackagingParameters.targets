@@ -25,4 +25,26 @@
         </GetPackageArchitecture>
     </Target>
 
+    <!--
+        Self-Contained support adds winmd files for runtime Metadata-Based Marshaling (MBM).
+        However, these winmd references are then picked up by the automatic winmd-based
+        activatable class registration support in Microsoft.AppXPackage.Targets.
+        For UWP apps, this support can be disabled via either the AppxHarvestWinmdRegistration 
+        property or the SkipHarvestingWinmdRegistration metadata.  But WAP projects sidestep
+        these conditions, setting AppxHarvestWinmdRegistration=false and adding all referenced
+        winmds discovered in @(AdditionalWinmdsToHarvest) to @(_WinmdFilesFromReferences).
+        The self-contained logic attempted to work around this, removing all winmd references in
+        _RemoveWinMDFromAppxManifest, which was overly aggressive and removed winmds from project
+        references as well.  
+        
+        Instead, _RemoveWinMDFromAppxManifest should remove only the self-contained winmds,
+        preserving auto-registration of project reference winmds.
+    -->
+    <Target Name="_RemoveWinMDFromAppxManifest" BeforeTargets="_GenerateCurrentProjectAppxManifest">
+        <ItemGroup>
+            <_AppxWinmdFilesToHarvest Remove="@(_AppxWinmdFilesToHarvest)"
+                Condition="$([System.String]::Copy('%(_AppxWinmdFilesToHarvest.Identity)').Contains('\MsixContent\'))" />
+        </ItemGroup>
+    </Target>
+
 </Project>

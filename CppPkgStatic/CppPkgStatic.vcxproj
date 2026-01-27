@@ -181,6 +181,9 @@
     <ProjectReference Include="..\LibNonEC\LibNonEC.vcxproj">
       <Project>{3b689cd9-ef76-423c-a552-358b43e2aa4c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\RuntimeComponent1\RuntimeComponent1.vcxproj">
+      <Project>{829b088f-e7fa-43fb-bd0a-fb07fb0061e4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
