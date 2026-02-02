@@ -57,7 +57,13 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <!--
+    Mixing ARM64EC and x64 object code is incompatible with whole program optimization, resulting in:
+        fatal error C1905: Front end and back end not compatible (must target same processor).
+        LINK : fatal error LNK1257: code generation failed
+    This is an architectural limitation of the linker, not a bug.  The only workaround is to disable WPO.
+    -->
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">

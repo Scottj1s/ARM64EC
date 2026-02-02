@@ -19,7 +19,7 @@
             <PackageArchitecture>neutral</PackageArchitecture>
         </PropertyGroup>
 
-        <GetPackageArchitecture Condition="'$(UseNeutralArchitectureForRemoteDebuggingDeployment)'!='true'" 
+        <GetPackageArchitecture Condition="'$(UseNeutralArchitectureForRemoteDebuggingDeployment)'!='true'"
                 Platform="$(Platform)" ProjectArchitecture="@(ProjectArchitecture)" RecursiveProjectArchitecture="@(_RecursiveProjectArchitecture)" VsTelemetrySession="$(VsTelemetrySession)">
             <Output TaskParameter="PackageArchitecture" PropertyName="PackageArchitecture" />
         </GetPackageArchitecture>
@@ -45,6 +45,33 @@
             <_AppxWinmdFilesToHarvest Remove="@(_AppxWinmdFilesToHarvest)"
                 Condition="$([System.String]::Copy('%(_AppxWinmdFilesToHarvest.Identity)').Contains('\MsixContent\'))" />
         </ItemGroup>
+    </Target>
+
+    <!--
+        Most CRT libraries are provided in the ARM64 VCLibs framework package.
+        vcruntime140_1(d).dll is the exception, and is required for non-ARM64EC (ie., x64) 
+        object code to support exception handling.  We'll binplace them manually for now,
+        until the ARM64 VCLibs FWP includes these DLLs.  We could probably get away with 
+        the smaller x64 versions of each DLL, but to be consistent with the FWP, 
+        we'll use the full ARM64X versions.
+
+        Tracking issue:
+        ARM64 version of Microsoft.VCLibs.140.00[.Debug].UWPDesktop_14.0.33728.0 doesn't support ARM64EC apps - Developer Community
+        https://developercommunity.visualstudio.com/t/ARM64-version-of-MicrosoftVCLibs14000/10992990
+    -->
+    <PropertyGroup>
+        <_WorkaroundMissingVcRuntime140_1_dll Condition="'$(_WorkaroundMissingVcRuntime140_1_dll)'=='' and '$(Platform)'=='ARM64EC' and '$(ConfigurationType)' == 'Application'">true</_WorkaroundMissingVcRuntime140_1_dll>
+    </PropertyGroup>
+    <ItemGroup Condition="'$(_WorkaroundMissingVcRuntime140_1_dll)'=='true'">
+        <VcRuntime140_1_dll Condition="'$(Configuration)' == 'Debug'" Include="$(VCToolsRedistInstallDir)debug_nonredist\arm64\Microsoft.VC$(PlatformToolsetVersion).DebugCRT\vcruntime140_1d.dll" />
+        <VcRuntime140_1_dll Condition="'$(Configuration)' != 'Debug'" Include="$(VCToolsRedistInstallDir)\arm64\Microsoft.VC$(PlatformToolsetVersion).CRT\vcruntime140_1.dll" />
+        <Content Include="@(VcRuntime140_1_dll)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>%(Filename)%(Extension)</TargetPath>
+        </Content>
+    </ItemGroup>
+    <Target Name="_WorkaroundMissingVcRuntime140_1_dll" Condition="'$(_WorkaroundMissingVcRuntime140_1_dll)'=='true'" BeforeTargets="Build">
+        <Error Condition="'@(VcRuntime140_1_dll)'==''" Text="VcRuntime140_1(d).dll not found"/>
     </Target>
 
 </Project>

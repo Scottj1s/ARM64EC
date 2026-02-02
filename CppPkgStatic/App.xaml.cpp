@@ -15,7 +15,7 @@ namespace winrt::CppPkgStatic::implementation
 {
     App::App()
     {
-        // Linking in an x64 lib compiled with FH4 adds a dependency on vcruntime140_1.dll, 
+        // Linking in an x64 lib compiled with FH4 adds a dependency on vcruntime140_1(d).dll, 
         // which is not included in the ARM64(x) distribution of VCLibs.UwpDesktop.
         // Debugging on an ARM64 device shows a split load of CRT DLLs:
         //  C:\Program Files\WindowsApps\Microsoft.VCLibs.140.00.Debug.UWPDesktop_14.0.33728.0_arm64__8wekyb3d8bbwe\vcruntime140d.dll
